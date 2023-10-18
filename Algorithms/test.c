@@ -52,4 +52,5 @@ void prim_MST(Graph* g, int u, int w) {
 int main() {
 	Heap heap;
 	init_heap(&heap); //heap ÃÊ±âÈ­
+	//test
 }
