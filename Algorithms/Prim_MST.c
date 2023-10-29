@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define MAX_SIZE 100                //그래프의 최대 크기 정의
 #define INF 99999999                //무한대 값을 나타내는 상수
 
 typedef struct Edge {               //연결리스트 사용을 위한 Edge struct 생성
-    int u;
-    int w;
+    int u;                          //정점
+    int w;                          
     struct Edge* Link;              //연결리스트 다음 Edge Link (포인터)
 } Edge;
 
@@ -107,38 +108,40 @@ void addEdge(Graph* g, int idx, int u, int w) {             //각 정점과 연결된 �
 }
 
 void prim_MST(Graph* g) {                                   //프림 알고리즘 함수
-    int parent[MAX_SIZE];
-    int key[MAX_SIZE];
+    int nearest[MAX_SIZE];
+    int distance[MAX_SIZE];
     Heap heap;
     init_heap(&heap);
     int src = 0;
     int totalWeight = 0;                                    //prim_MST의 전체 가중치 값을 저장할 변수
 
-    for (int i = 0; i < g->node; i++) {
-        key[i] = INF;
+    int i;
+    for (i = 0; i < g->node; i++) {
+        distance[i] = INF;
         insert_min_heap(&heap, i, INF);                     //모든 노드를 힙에 추가
     }
 
-    key[src] = 0;
+    distance[src] = 0;
     decreaseKey(&heap, src, 0);                             //시작 노드의 가중치 값을 0으로 갱신
 
     printf("---------prim_MST START!!---------\n\n");
 
-    while (!isEmpty(&heap)) {                               //prime 수행 시작
+    int count;
+    while (!isEmpty(&heap)) {                               //prim 수행 시작
         int u = delete_min_heap(&heap).v;
 
         Edge* edge = g->head[u];
         while (edge) {
             int v = edge->u;
-            if (key[v] > edge->w) {
-                int oldKey = key[v]; // 이전 key 값 저장
-                key[v] = edge->w;
+            if (distance[v] > edge->w) {
+                int oldKey = distance[v]; // 이전 key 값 저장
+                distance[v] = edge->w;
                 decreaseKey(&heap, v, edge->w);
-                parent[v] = u;
+                nearest[v] = u;
 
                 // 변경된 key 값과 간선 정보를 함께 출력
-                printf("(%d, %d) - 가중치: %d | ", parent[v], v, key[v]);
-                printf("정점 %d의 key값이 %d에서 %d로 변경\n", v, oldKey, key[v]);
+                printf("(%d, %d) - 가중치: %d | ", nearest[v], v, distance[v]);
+                printf("정점 %d의 key값이 %d에서 %d로 변경\n", v, oldKey, distance[v]);
             }
             edge = edge->Link;
         }
@@ -146,11 +149,12 @@ void prim_MST(Graph* g) {                                   //프림 알고리즘 함수
 
     printf("\n");
 
-    for (int i = 1; i < g->node; i++) {                     //prim_MST의 간선과 전체 가중치 출력
-        printf("%d -> %d   |   가중치 값 :  %d\n", parent[i], i, key[i]);
-        totalWeight += key[i];                              //가중치 값을 totalWeight에 더함
+    for (int i = 1; i < g->node; i++) {                     
+        printf("%d -> %d   |   가중치 값 :  %d\n", nearest[i], i, distance[i]);   //prim_MST의 간선과 전체 가중치 출력
+        totalWeight += distance[i];                                             //가중치 값을 totalWeight에 더함
     }
 
+    printf("\n---------prim_MST END!!---------\n");
     printf("\n전체 가중치 값은 : %d\n", totalWeight);                //전체 가중치 값 출력
 }
 
