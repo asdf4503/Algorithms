@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 #define MAX_SIZE 100                //그래프의 최대 크기 정의
-#define INF 99999999                //무한대 값을 나타내는 상수
+#define INF 999999999               //무한대 값을 나타내는 상수
 
 typedef struct Edge {               //연결리스트 사용을 위한 Edge struct 생성
     int u;                          //정점
@@ -41,10 +41,6 @@ void swapHeapNode(HeapNode* parent, HeapNode* child) {      //HeapNode의 위치를 
     HeapNode etc = *parent;
     *parent = *child;
     *child = etc;
-}
-
-int isEmpty(Heap* heap) {           //힙이 비어있는지 확인하는 함수
-    return heap->size == 0;
 }
 
 HeapNode delete_min_heap(Heap* heap) {                  //힙에서 최소값 추출 함수
@@ -112,6 +108,7 @@ void addEdge(Graph* g, int idx, int u, int w) {             //각 정점과 연결된 �
 void prim_MST(Graph *g, Heap *heap) {                   //prim 알고리즘을 사용하여 최소 신장 트리를 찾는 함수
     int nearest[MAX_SIZE];                              //각 정점의 부모 정점을 저장하는 배열
     int distance[MAX_SIZE];                             //각 정점까지의 최단 거리를 저장하는 배열
+    bool MST_v[MAX_SIZE];                               // 각 정점이 MST에 포함되었는지 여부를 저장하는 배열
     
     int src = 0;                                        //시작 정점 번호
     int totalWeight = 0;                                //최소 신장 트리의 총 가중치 값
@@ -120,20 +117,22 @@ void prim_MST(Graph *g, Heap *heap) {                   //prim 알고리즘을 사용하
     for (i = 0; i < g->node; i++) {
         distance[i] = INF;                              //초기 모든 노드의 거리를 무한대로 설정
         insert_min_heap(heap, i, INF);                  //힙에 모든 정점 추가
+        MST_v[i] = false;                               //모든 정점을 prim_MST에 포함되지 않은 상태로 초기화
     }
 
     distance[src] = 0;                                  //시작 노드의 거리를 0으로 설정
     decreaseKey(heap, src, 0);                          //시작 노드의 거리 갱신
 
-    printf("---------prim_MST START!!---------\n\n");
-
     int count = 0;                                      //반복 횟수 카운트
-    while (!isEmpty(heap) && count <= g->node - 2) {    //힙이 비어있지 않고, n(정점 수)-2 반복
+    while (count <= g->node - 2) {                      //힙이 비어있지 않고, n(정점 수)-2 반복
         int u = delete_min_heap(heap).v;                //최소값 추출
+        MST_v[u] = true;                                //u 정점을 prim_MST에 포함시킴
 
         Edge* edge = g->head[u];                        //현재 정점의 인접 리스트
         while (edge) {                                  //인접 리스트 순회
             int v = edge->u;                            //인접 정점
+            printf("정점 %d에서 정점 %d로의 가중치 확인 - 현재 가중치: %d, 인접 가중치: %d\n", u, v, distance[v], edge->w);
+
             if (distance[v] > edge->w) {                //인접 정점까지의 거리가 현재 가중치보다 클 경우
                 int oldKey = distance[v];               //현재 거리 저장
                 distance[v] = edge->w;                  //거리 갱신
@@ -141,8 +140,7 @@ void prim_MST(Graph *g, Heap *heap) {                   //prim 알고리즘을 사용하
                 nearest[v] = u;                         //부모 정점 갱신
 
                 //가중치 값 변경 출력
-                printf("(%d, %d) - 가중치: %d | ", nearest[v], v, distance[v]);            
-                printf("정점 %d의 key값이 %d에서 %d로 변경\n", v, oldKey, distance[v]);
+                printf("(%d, %d) - 가중치: %d | 정점 %d의 가중치 값이 %d에서 %d로 변경\n\n", nearest[v], v, distance[v], v, oldKey, distance[v]);
             }
             edge = edge->Link;                          //다음 인접 정점으로 이동
         }
@@ -150,8 +148,9 @@ void prim_MST(Graph *g, Heap *heap) {                   //prim 알고리즘을 사용하
     }
 
     printf("\n");
+    printf("---------prim_MST START!!---------\n\n");
 
-    //최소 신장 트리의 각 간선과 가중치 출력
+    //최소 신장 트리의 각 간선과 가중치 출력(시작 정점 제외)
     for (i = 1; i < g->node; i++) {
         printf("%d -> %d   |   가중치 값 :  %d\n", nearest[i], i, distance[i]);
         totalWeight += distance[i];                 //총 가중치 값 계산
