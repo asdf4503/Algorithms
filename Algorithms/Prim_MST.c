@@ -95,18 +95,18 @@ void insert_min_heap(Heap* heap, int v, int d) {            //최소 힙 노드 추가 
     heap->data[i].d = d;                                    //노드 가중치 정보 저장
 }
 
-void addEdge(Graph* g, int idx, int u, int w) {             //각 정점과 연결된 정점 및 가중치 입력
-    Edge* newEdge1 = (Edge*)malloc(sizeof(Edge));            //Edge 메모리 동적 할당
-    newEdge1->u = u;                                         //간선의 끝 정점 설정
-    newEdge1->w = w;                                         //간선의 가중치 설정
-    newEdge1->Link = g->head[idx];                           //Edge를 인접 리스트 앞에 추가
-    g->head[idx] = newEdge1;                                 //head 갱신
+void addEdge(Graph* g, int idx, int u, int w) {             //각 정점과 연결된 정점 및 가중치 입력(무방향 그래프)
+    Edge* newEdge1 = (Edge*)malloc(sizeof(Edge));           //Edge 메모리 동적 할당
+    newEdge1->u = u;                                        //간선의 끝 정점 설정
+    newEdge1->w = w;                                        //간선의 가중치 설정
+    newEdge1->Link = g->head[idx];                          //Edge를 인접 리스트 앞에 추가
+    g->head[idx] = newEdge1;                                //head 갱신
 
-    Edge* newEdge2 = (Edge*)malloc(sizeof(Edge));          //Edge 메모리 동적 할당
-    newEdge2->u = idx;                                     //간선의 끝 정점 설정
-    newEdge2->w = w;                                       //간선의 가중치 설정
-    newEdge2->Link = g->head[u];                           //Edge를 인접 리스트 앞에 추가
-    g->head[u] = newEdge2;                                 //head 갱신
+    Edge* newEdge2 = (Edge*)malloc(sizeof(Edge));           //Edge 메모리 동적 할당
+    newEdge2->u = idx;                                      //간선의 끝 정점 설정
+    newEdge2->w = w;                                        //간선의 가중치 설정
+    newEdge2->Link = g->head[u];                            //Edge를 인접 리스트 앞에 추가
+    g->head[u] = newEdge2;                                  //head 갱신
 
     printf("%d -> %d   |   가중치 값: %2d |\n", idx, u, w); // 출력 구문 추가
 }
@@ -127,14 +127,14 @@ void prim_MST(Graph *g, Heap *heap, int root) {         //prim 알고리즘을 사용하
         MST_v[i] = false;                               //모든 정점을 prim_MST에 포함되지 않은 상태로 초기화
     }
 
-    int visit_order[MAX_SIZE];          // 방문 순서를 저장하는 배열
-    int order_count = 0;                // 방문한 노드의 수를 카운트하는 변수
+    int visit[MAX_SIZE];          // 방문 순서를 저장하는 배열
+    int orderCount = 0;           // 방문한 노드의 수를 카운트하는 변수
 
     for (i = 0; i < g->node; i++) {     //방문 순서 배열을 그래프의 노드 만큼 반복
-        visit_order[i] = -1;            //방문 순서 배열을 -1로 초기화
+        visit[i] = -1;            //방문 순서 배열을 -1로 초기화
     }
 
-    visit_order[order_count++] = src;   //시작 정점을 첫 번째 방문한 것으로 설정
+    visit[orderCount++] = src;   //시작 정점을 첫 번째 방문한 것으로 설정
 
     distance[src] = 0;                                  //시작 노드의 거리를 0으로 설정
     decrease_key(heap, src, 0);                         //시작 노드의 거리 갱신
@@ -146,7 +146,7 @@ void prim_MST(Graph *g, Heap *heap, int root) {         //prim 알고리즘을 사용하
         int u = delete_min_heap(heap).v;                //최솟값 추출
         MST_v[u] = true;                                //u 정점을 prim_MST에 포함시킴
         
-        if (u != src)   visit_order[order_count++] = u; //시작 정점이 아닌 경우 방문 순서 배열에 추가
+        if (u != src)   visit[orderCount++] = u; //시작 정점이 아닌 경우 방문 순서 배열에 추가
         else            count--;                        //시작 정점 제외
         
         Edge* edge = g->head[u];                        //현재 정점의 인접 리스트
@@ -171,16 +171,16 @@ void prim_MST(Graph *g, Heap *heap, int root) {         //prim 알고리즘을 사용하
     printf("\n--------prim_MST Result--------\n\n");
 
     //최소 신장 트리의 각 간선과 가중치 출력(시작 정점 제외)
-    for (i = 0; i < order_count; i++) {
-        int u = visit_order[i];
+    for (i = 0; i < orderCount; i++) {
+        int u = visit[i];
         if (u != src) { //시작 정점 제외
             printf("%d -> %d   |   가중치 값 :  %d\n", nearest[u], u, distance[u]);
-            totalWeight += distance[u];
+            totalWeight += distance[u]; //최소 가중치 합
         }
     }
 
     printf("\n---------prim_MST END!!---------\n");
-    printf("\n전체 가중치 값은 : %d\n", totalWeight);
+    printf("\n전체 가중치 값은 : %d\n", totalWeight);  //최소 가중치 값 출력 구문
 }
 
 int main() {
@@ -208,19 +208,25 @@ int main() {
     printf("---------------------------\n");
     printf("\n\n");
 
-    int root;
-    printf("시작 정점을 입력하세요 (0 ~ %d) : ", graph.node - 1);
-    scanf_s("%d", &root);
+    bool chk = true;    //반복문 체크 변수
 
-    if (root < 0 || root >= graph.node) {
-        printf("올바르지 않은 정점 번호입니다.\n");
-        return -1;
+    while (chk) {       //프림 알고리즘이 한번 실행될 때까지 반복
+        int root;       //시작 정점
+        printf("시작 정점을 입력하세요 (0 ~ %d) : ", graph.node - 1);
+        scanf_s("%d", &root); //시작 정점 입력
+
+        //주어진 정점 이외 다른 정점 입력 시
+        if (root < 0 || root >= graph.node)
+            printf("올바르지 않은 정점 번호입니다.\n\n");
+            
+        else {
+            Heap heap;
+            init_heap(&heap);   //힙 초기화
+
+            prim_MST(&graph, &heap, root);   //그래프 및 힙 초기화 후 prim_MST 실행
+            chk = false;
+        }
     }
-
-    Heap heap;
-    init_heap(&heap);   //힙 초기화
-
-    prim_MST(&graph, &heap, root);   //그래프 및 힙 초기화 후 prim_MST 실행
 
     //메모리 할당 해제
     for (int i = 0; i < graph.node; i++) {
