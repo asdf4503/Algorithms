@@ -28,7 +28,7 @@ typedef struct Heap {               //Heap struct 생성
 
 void init_graph(Graph* g) {         //그래프 초기화 함수
     int i = 0;
-    g->node = 0;
+    g->node = 0;                    //그래프의 노드를 0으로 초기화
     for ( ; i < MAX_SIZE; i++)
         g->head[i] = NULL;          //MAX_SIZE만큼 그래프 초기화
 }
@@ -114,7 +114,7 @@ void addEdge(Graph* g, int idx, int u, int w) {             //각 정점과 연결된 �
 void prim_MST(Graph *g, Heap *heap, int root) {         //prim 알고리즘을 사용하여 최소 신장 트리를 찾는 함수
     int nearest[MAX_SIZE];                              //각 정점의 부모 정점을 저장하는 배열
     int distance[MAX_SIZE];                             //각 정점까지의 최단 거리를 저장하는 배열
-    bool MST_v[MAX_SIZE];                               // 각 정점이 MST에 포함되었는지 여부를 저장하는 배열
+    bool MST_v[MAX_SIZE];                               //각 정점이 MST에 포함되었는지 여부를 저장하는 배열
     
     int src = root;                                     //시작 정점 번호
     int totalWeight = 0;                                //최소 신장 트리의 총 가중치 값
@@ -122,7 +122,7 @@ void prim_MST(Graph *g, Heap *heap, int root) {         //prim 알고리즘을 사용하
     int i;
     for (i = 0; i < g->node; i++) {
         distance[i] = INF;                              //초기 모든 노드의 거리를 무한대로 설정
-        nearest[i] = src;                               // 모든 정점의 가장 가까운 연결 정점을 시작 정점으로 설정
+        nearest[i] = src;                               //모든 정점의 가장 가까운 연결 정점을 시작 정점으로 설정
         insert_min_heap(heap, i, INF);                  //힙에 모든 정점 추가
         MST_v[i] = false;                               //모든 정점을 prim_MST에 포함되지 않은 상태로 초기화
     }
@@ -146,7 +146,7 @@ void prim_MST(Graph *g, Heap *heap, int root) {         //prim 알고리즘을 사용하
         int u = delete_min_heap(heap).v;                //최솟값 추출
         MST_v[u] = true;                                //u 정점을 prim_MST에 포함시킴
         
-        if (u != src)   visit[orderCount++] = u; //시작 정점이 아닌 경우 방문 순서 배열에 추가
+        if (u != src)   visit[orderCount++] = u;        //시작 정점이 아닌 경우 방문 순서 배열에 추가
         else            count--;                        //시작 정점 제외
         
         Edge* edge = g->head[u];                        //현재 정점의 인접 리스트
@@ -160,8 +160,7 @@ void prim_MST(Graph *g, Heap *heap, int root) {         //prim 알고리즘을 사용하
                 nearest[v] = u;                         //부모 정점 갱신
 
                 //가중치 값 변경 출력
-                printf("정점 %d에서 정점 %d로의 가중치 확인 - 현재 가중치: %d, 인접 가중치: %d\n", u, v, distance[v], edge->w);
-                printf("(%d, %d) - 가중치: %d | 정점 %d의 가중치 값이 %d에서 %d로 변경\n\n", nearest[v], v, distance[v], v, oldKey, distance[v]);
+                printf("(%d, %d) - 가중치: %d | 정점 %d의 가중치 값이 %d에서 %d로 변경\n", nearest[v], v, distance[v], v, oldKey, distance[v]);
             }
             edge = edge->Link;                          //다음 인접 정점으로 이동
         }
@@ -228,8 +227,10 @@ int main() {
         }
     }
 
+    int i;
+
     //메모리 할당 해제
-    for (int i = 0; i < graph.node; i++) {
+    for (i = 0; i < graph.node; i++) {
         Edge* current = graph.head[i];
         while (current) {
             Edge* temp = current;
