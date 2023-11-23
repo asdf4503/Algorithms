@@ -7,8 +7,8 @@ void quicksort_DC(int list[], int low, int high, int threshold) {
 	if (low < high) {
 		if (high - low > threshold) {  // 퀵정렬 사용 조건
 			pivot_pos = partition(list, low, high, threshold);
-			//quicksort_DC(list, low, pivot_pos - 1, threshold);
-			//quicksort_DC(list, pivot_pos + 1, high, threshold);
+			quicksort_DC(list, low, pivot_pos - 1, threshold);
+			quicksort_DC(list, pivot_pos + 1, high, threshold);
 		}
 		else {
 			// 임계값 이하인 경우 삽입 정렬 사용

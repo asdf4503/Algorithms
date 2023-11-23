@@ -1,2 +1,2 @@
-void shuffle(int* arr, int num);
-void print_list(int* arr, int num);
+void shuffle(int *list, int num);
+void print_list(int *list, int num);

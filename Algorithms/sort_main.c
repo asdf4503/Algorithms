@@ -8,24 +8,24 @@
 #include "shuffle.h"
 
 int main(void) {
-    int index;
-    int *list_merge;
+    int data;
+    int *list_merge; //
     int *list_quick;
     
-    printf("배열의 크기를 입력하세요 : ");
-    scanf("%d", &index);
-    list_merge = (int*)malloc(sizeof(int) * index);
-    list_quick = (int*)malloc(sizeof(int) * index);
+    printf("데이터 갯수를 입력하시오. : ");
+    scanf("%d", &data);
+    list_merge = (int*)malloc(sizeof(int) * data);
+    list_quick = (int*)malloc(sizeof(int) * data);
 
     int i;
-    for (i = 0; i < index; i++) {
+    for (i = 0; i < data; i++) {
         list_merge[i] = i + 1;
         list_quick[i] = i + 1;
     }
 
-    shuffle(list_merge, index);
+    shuffle(list_merge, data);
 
-    for (i = 0; i < index; i++) {
+    for (i = 0; i < data; i++) {
         list_quick[i] = list_merge[i];
     }
 
@@ -33,11 +33,11 @@ int main(void) {
     clock_t start_merge = clock();
 
     //merge_sort 시작
-    merge_sort_DC(list_merge, 0, index - 1);
+    printf("합병정렬 실행\n");
+    merge_sort_DC(list_merge, 0, data - 1);
 
     clock_t end_merge = clock();
-    printf("합병정렬 실행 : ");
-    //print_list(list_merge, index);
+    //print_list(list_merge, data);
 
     printf("소요 시간: %lf\n\n", (double)(end_merge - start_merge) / CLOCKS_PER_SEC);
 
@@ -45,12 +45,12 @@ int main(void) {
 
     clock_t start_quick = clock();
     //퀵 정렬 시작
+    printf("퀵정렬 실행\n");
     printf("피봇 : %d\n", list_quick[0]);
-    quicksort_DC(list_quick, 0, index - 1, 0);
+    quicksort_DC(list_quick, 0, data - 1, 1000);
 
     clock_t end_quick = clock();
-    printf("퀵정렬 실행 : ");
-    //print_list(list_quick, index);
+    //print_list(list_quick, data);
     
     printf("소요 시간: %lf\n\n", (double)(end_quick - start_quick) / CLOCKS_PER_SEC);
 
