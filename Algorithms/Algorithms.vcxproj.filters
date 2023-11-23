@@ -18,5 +18,28 @@
     <ClCompile Include="Prim_MST.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="merge_sort.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="quick_sort.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="sort_main.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="shuffle.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="merge_sort.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="shuffle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="quicksort.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
