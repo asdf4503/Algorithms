@@ -142,11 +142,13 @@
       <SDLCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</SDLCheck>
       <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MultiProcessorCompilation>
     </ClCompile>
+    <ClCompile Include="start.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="merge_sort.h" />
     <ClInclude Include="quicksort.h" />
     <ClInclude Include="shuffle.h" />
+    <ClInclude Include="start.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

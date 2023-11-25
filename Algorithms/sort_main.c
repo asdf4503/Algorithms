@@ -1,67 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-#include "merge_sort.h"
-#include "shuffle.h"
-#include "quicksort.h"
-#include "shuffle.h"
+#include "start.h"
 
 int main(void) {
-    int data;           //데이터 갯수를 저장하는 변수
-    int *list_merge;    //합병 정렬에 사용될 배열 포인터
-    int *list_quick;    //퀵 정렬에 사용될 배열 포인터
-    
-    //데이터 입력
-    printf("데이터 갯수를 입력하시오. : ");
-    scanf("%d", &data);
-    printf("\n");
-
-    //데이터를 저장할 배열 할당
-    list_merge = (int*)malloc(sizeof(int) * data);
-    list_quick = (int*)malloc(sizeof(int) * data);
-
-    printf("데이터 생성 중\n"); 
-    int i;
-    //초기 데이터 생성
-    for (i = 0; i < data; i++) {
-        list_merge[i] = i + 1;
-        list_quick[i] = i + 1;
-    }
-    //데이터의 위치를 무작위로 섞음
-    shuffle(list_merge, data);
-
-    //같은 데이터를 사용하기 위한 복사
-    for (i = 0; i < data; i++) {
-        list_quick[i] = list_merge[i];
-    }
-    printf("데이터 생성 완료\n");
-
-    //합병 정렬 시작
-    printf("\n합병정렬 실행\n");
-    clock_t start_merge = clock();  //합병 정렬 실행 시간 측정 시작
-    merge_sort_DC(list_merge, 0, data - 1); 
-
-    clock_t end_merge = clock();    //합병 정렬 실행 시간 측정 종료
-    //print_list(list_merge, data); //합병 정렬 결과 출력
-
-    //합병 정렬 실행 시간 출력
-    printf("소요 시간: %lf\n\n", (double)(end_merge - start_merge) / CLOCKS_PER_SEC);
-
-    free(list_merge);               //합병 정렬 배열 메모리 할당 해제
-
-    //퀵 정렬 시작
-    printf("퀵정렬 실행\n");
-    printf("피봇 : %d\n", list_quick[0]);     //피봇 출력
-    clock_t start_quick = clock();            //퀵 정렬 실행 시간 측정 시작
-    quicksort_DC(list_quick, 0, data - 1, 10);
-
-    clock_t end_quick = clock();    //퀵 정렬 실행 시간 측정 종료
-    //print_list(list_quick, data); //퀵 정렬 결과 출력
-    //퀵 정렬 실행 시간 출력
-    printf("소요 시간: %lf\n\n", (double)(end_quick - start_quick) / CLOCKS_PER_SEC);
-
-    free(list_quick);           //퀵 정렬 배열 메모리 할당 해제
-
-    return 0;
+    start();
 }
