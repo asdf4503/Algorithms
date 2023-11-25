@@ -3,4 +3,6 @@
 
 int main(void) {
     start(); //프로그램 시작
+    
+    return 0;
 }

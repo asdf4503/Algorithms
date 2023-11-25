@@ -24,6 +24,7 @@ void start() {
     //데이터를 저장할 배열 할당
     list_merge = (int*)malloc(sizeof(int) * data);
     list_quick = (int*)malloc(sizeof(int) * data);
+    //임시 저장 배열
     sorted = (int*)malloc(sizeof(int) * data);
 
     //정렬 프로그램 선택
@@ -143,4 +144,6 @@ void start() {
 
     free(list_merge);           //합병 정렬 배열 메모리 할당 해제
     free(list_quick);           //퀵 정렬 배열 메모리 할당 해제
+
+    return 0;
 }

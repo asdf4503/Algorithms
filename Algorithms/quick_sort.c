@@ -27,7 +27,7 @@ int partition(int list[], int low, int high, int threshold) {
 		//피봇보다 작은 값을 만나면 j를 증가시키고 값을 교환
 		if (list[i] < list[low]) {
 			j++;
-			//list[i]와 list[j] 교환ㄴ
+			//list[i]와 list[j] 교환
 			temp = list[i];
 			list[i] = list[j];
 			list[j] = temp;
