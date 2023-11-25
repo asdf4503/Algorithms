@@ -12,6 +12,7 @@ void start() {
     int data;           //데이터 갯수를 저장하는 변수
     int* list_merge;    //합병 정렬에 사용될 배열 포인터
     int* list_quick;    //퀵 정렬에 사용될 배열 포인터
+    int* sorted;
     int type = 0;
 
     printf("20191480 신용선\n");
@@ -23,6 +24,7 @@ void start() {
     //데이터를 저장할 배열 할당
     list_merge = (int*)malloc(sizeof(int) * data);
     list_quick = (int*)malloc(sizeof(int) * data);
+    sorted = (int*)malloc(sizeof(int) * data);
 
     //정렬 프로그램 선택
     printf("합병 정렬 : 1 / 퀵 정렬 : 2 / 모두 : 3\n");
@@ -38,14 +40,14 @@ void start() {
         //데이터의 위치를 무작위로 섞음
         shuffle(list_merge, data);
         printf("데이터 생성 완료\n");
-        //데이터 출력
-        /*printf("\n데이터 출력\n");
-        //print_list(list_merge, data); //데이터 출력*/
+        /*//데이터 출력
+        printf("\n데이터 출력\n");
+        print_list(list_merge, data); //데이터 출력*/
 
         //합병 정렬 시작
         printf("\n합병정렬 실행\n");
         clock_t start_merge = clock();  //합병 정렬 실행 시간 측정 시작
-        merge_sort_DC(list_merge, 0, data - 1);
+        merge_sort_DC(list_merge, sorted, 0, data - 1);
 
         clock_t end_merge = clock();    //합병 정렬 실행 시간 측정 종료
         //print_list(list_merge, data); //합병 정렬 결과 출력
@@ -107,7 +109,7 @@ void start() {
         //합병 정렬 시작
         printf("\n합병정렬 실행\n");
         clock_t start_merge = clock();  //합병 정렬 실행 시간 측정 시작
-        merge_sort_DC(list_merge, 0, data - 1);
+        merge_sort_DC(list_merge, sorted, 0, data - 1);
 
         clock_t end_merge = clock();    //합병 정렬 실행 시간 측정 종료
         //print_list(list_merge, data); //합병 정렬 결과 출력
