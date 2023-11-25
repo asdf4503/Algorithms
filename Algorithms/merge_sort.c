@@ -3,6 +3,20 @@
 #include <time.h>
 #include "merge_sort.h"
 
+//합병 정렬 함수
+void merge_sort_DC(int list[], int low, int high) {
+    int middle;
+    if (low < high) {
+        middle = (low + high) / 2;
+
+        //첫 번째와 두 번째 반을 재귀적으로 정렬
+        merge_sort_DC(list, low, middle);
+        merge_sort_DC(list, middle + 1, high);
+        merge(list, low, middle, high);
+    }
+}
+
+//합병 정렬 함수
 void merge(int list[], int low, int middle, int high) {
     int i, j, s;
     int n1 = middle - low + 1;
@@ -47,18 +61,4 @@ void merge(int list[], int low, int middle, int high) {
     //동적 할당된 메모리 해제
     free(left);
     free(right);
-}
-
-
-//합병 정렬 함수
-void merge_sort_DC(int list[], int low, int high) {
-    int middle;
-    if (low < high) {
-        middle = (low + high) / 2;
-
-        //첫 번째와 두 번째 반을 재귀적으로 정렬
-        merge_sort_DC(list, low, middle);
-        merge_sort_DC(list, middle + 1, high);
-        merge(list, low, middle, high);
-    }
 }
