@@ -4,23 +4,20 @@
 
 //퀵 정렬 함수
 void quicksort_DC(int list[], int low, int high, int threshold) {
-	//배열의 크기가 1이상일 때 실행
-	if (low < high) {
-		//퀵정렬 사용 조건 (배열의 크기가 임계값보다 큰 경우에만 퀵정렬 수행)
-		if (high - low > threshold) {  
-			int pivot_pos = partition(list, low, high, threshold); //배열을 분할하고 피봇의 위치를 찾음
-			//피봇을 기준으로 왼쪽과 오른쪽 부분 배열에 대해 재귀적으로 퀵 정렬 수행
-			quicksort_DC(list, low, pivot_pos - 1, threshold);
-			quicksort_DC(list, pivot_pos + 1, high, threshold);
-		}
-		else {
-			insertion_Sort(list, low, high);	//임계값 이하인 경우 삽입 정렬 사용
-		}
+	//퀵정렬 사용 조건 (배열의 크기가 임계값보다 큰 경우에만 퀵정렬 수행)
+	if (high - low > threshold) {  
+		int pivot_pos = partition(list, low, high); //배열을 분할하고 피봇의 위치를 찾음
+		//피봇을 기준으로 왼쪽과 오른쪽 부분 배열에 대해 재귀적으로 퀵 정렬 수행
+		if(low < pivot_pos - 1)quicksort_DC(list, low, pivot_pos - 1, threshold);
+		if(pivot_pos + 1 < high)quicksort_DC(list, pivot_pos + 1, high, threshold);
 	}
+	else {
+		insertion_Sort(list, low, high);	//임계값 이하인 경우 삽입 정렬 사용
+	}	
 }
 
 //배열을 분할하고 피봇의 위치를 찾는 함수
-int partition(int list[], int low, int high, int threshold) {
+int partition(int list[], int low, int high) {
 	int i, j = low;	//i는 순회 인덱스, j는 피봇보다 작은 값들의 인덱스
 	int temp = 0;	//값 교환을 위한 임시 변수
 	for (i = low + 1; i <= high; i++) {
