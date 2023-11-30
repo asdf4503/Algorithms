@@ -44,17 +44,17 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="shuffle.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="merge_sort.h">
+      <Filter>헤더 파일\sort_h</Filter>
     </ClInclude>
     <ClInclude Include="quicksort.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\sort_h</Filter>
+    </ClInclude>
+    <ClInclude Include="shuffle.h">
+      <Filter>헤더 파일\sort_h</Filter>
     </ClInclude>
     <ClInclude Include="start.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="merge_sort.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일\sort_h</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
