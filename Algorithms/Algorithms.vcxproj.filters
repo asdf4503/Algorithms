@@ -13,31 +13,37 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="헤더 파일\sort_h">
+      <UniqueIdentifier>{694c7778-4d40-49af-9bdf-1fea3df20bea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Prim">
+      <UniqueIdentifier>{a969dab2-0a67-4a8a-9051-288c39692d84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\sort">
+      <UniqueIdentifier>{3ec4830f-460d-4c35-be82-265f91d60619}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Prim_MST.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="merge_sort.c">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\sort</Filter>
+    </ClCompile>
+    <ClCompile Include="Prim_MST.c">
+      <Filter>소스 파일\Prim</Filter>
     </ClCompile>
     <ClCompile Include="quick_sort.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="sort_main.c">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\sort</Filter>
     </ClCompile>
     <ClCompile Include="shuffle.c">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\sort</Filter>
+    </ClCompile>
+    <ClCompile Include="sort_main.c">
+      <Filter>소스 파일\sort</Filter>
     </ClCompile>
     <ClCompile Include="start.c">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\sort</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="merge_sort.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="shuffle.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -45,6 +51,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="start.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="merge_sort.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
